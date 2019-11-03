@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/glist.widgets.dart';
+import 'services/file_percistence.dart';
 
 class GameDetail extends StatelessWidget {
   
@@ -13,10 +14,7 @@ class GameDetail extends StatelessWidget {
     print(this.handle);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(handle['name']),
-        backgroundColor: Colors.pink,
-      ),
+      appBar: GListWidget.buildAppBar(handle['name']),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -24,14 +22,17 @@ class GameDetail extends StatelessWidget {
             padding: EdgeInsets.only(left: 10, right: 10),
             child: Image.network(handle['image']['medium_url']),
           ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: GListWidget.buildText(handle['name']),
-              )
-            ],
-          )
+          Container(
+            padding: EdgeInsets.only(top: 20, left: 10, right: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GListWidget.buildText(handle['deck'] ?? '')
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

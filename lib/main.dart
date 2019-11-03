@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'widgets/glist.widgets.dart';
 import 'game_detail.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:async';
-import 'dart:convert';
 
 const request = 'https://www.giantbomb.com/api/games/?api_key=ae238a0cd01c7501ae9098936621727a2011d66c&format=json';
 
@@ -29,9 +28,10 @@ class _HomeState extends State<Home> {
 
 
   Future<List> getData(String name) async{
-    http.Response response = await http.get("$request&filter=name:${name.split(" ").join("%")}");
-    return json.decode(response.body)['results'];
+    Response response = await Dio().get("$request&filter=name:${name.split(" ").join("%")}");
+    return response.data['results'];
   }
+
 
   void searchGame(String text) async{
     List games = await getData(text);
@@ -85,11 +85,6 @@ class _HomeState extends State<Home> {
                     controller: nameCtrl,
                     onChanged: searchGame,
                   ),
-                ),
-                RaisedButton(
-                  child: Text("adicionar",style: TextStyle(color: Colors.white),),
-                  color: Colors.pink,
-                  onPressed: null,
                 ),
               ],
             ),
